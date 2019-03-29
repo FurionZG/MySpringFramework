@@ -10,18 +10,18 @@
    ## 功能展示：
    ### 这是项目结构：
    
-<div align=center><img width="50%" height="50%" src="imgs/QQ截图20190323195659"/></div>
+<div align=center><img width="50%" height="50%" src="imgs/QQ截图20190323195659.png"/></div>
 
    ### web.xml：
    
-<div align=center><img width="100%" height="100%" src="imgs/QQ截图20190329140948"/></div>
+<div align=center><img width="100%" height="100%" src="imgs/QQ截图20190329140948.png"/></div>
 
    ### 访问http://localhost/MySpringFramework/demo/query?name=123：
    
-<div align=center><img width="100%" height="100%" src="imgs/QQ截图20190329141748"/></div>
+<div align=center><img width="100%" height="100%" src="imgs/QQ截图20190329141748.png"/></div>
 
    ### 后台日志输出：
    
-<div align=center><img width="100%" height="100%" src="imgs/QQ截图20190329141007"/></div>
+<div align=center><img width="100%" height="100%" src="imgs/QQ截图20190329141007.png"/></div>
 
  
