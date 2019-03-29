@@ -23,4 +23,13 @@ public class DemoController {
 			e.printStackTrace();
 		}
 	}
+	@MyRequestMapping("/add")
+	public void add(HttpServletRequest req, HttpServletResponse resp, @MyRequestParam("name") String name) {
+		String result = demoService.add(name);
+		try {
+			resp.getWriter().write(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

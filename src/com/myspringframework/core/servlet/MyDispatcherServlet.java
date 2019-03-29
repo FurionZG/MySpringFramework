@@ -14,11 +14,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 
 import com.myspringframework.core.annotation.MyAutowired;
 import com.myspringframework.core.annotation.MyController;
@@ -35,8 +38,10 @@ public class MyDispatcherServlet extends HttpServlet {
 	// 初始化HandlerMapping
 	private Map<String, Method> handlerMapping = new HashMap<String, Method>();
 
+	private static Logger logger = Logger.getLogger(MyDispatcherServlet.class);
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		logger.info("正在调用Get方法");
 		// 6.调用Get/Post方法，反射调用，将结果发送到浏览器
 		try {
 			doDispatch(req, resp);
@@ -48,6 +53,7 @@ public class MyDispatcherServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 6.调用Get/Post方法，反射调用，将结果发送到浏览器
+		logger.info("正在调用Post方法");
 		try {
 			doDispatch(req, resp);
 		} catch (Exception e) {
@@ -61,6 +67,7 @@ public class MyDispatcherServlet extends HttpServlet {
 		doLoadConfig(config.getInitParameter("contextConfigLocation"));
 		// 2.解析配置文件，设置扫描类路径，扫描所有相关的类
 		doScan(contextConfig.getProperty("scanPackege"));
+		logger.info("包路径下所有的类："+classList);
 		// 3.初始化所有相关的类，并且保存在IOC容器中
 		doInstance();
 		// 4.完成依赖注入 DI
@@ -84,6 +91,7 @@ public class MyDispatcherServlet extends HttpServlet {
 	 */
 	private void doDispatch(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		logger.info("正在执行分发方法");
 		if (handlerMapping.isEmpty()) {
 			return;
 		}
@@ -110,6 +118,7 @@ public class MyDispatcherServlet extends HttpServlet {
 	 */
 
 	private void initHandlerMapping() {
+		logger.info("正在初始化HandlerMapping");
 		if (ioc.isEmpty()) {
 			return;
 		}
@@ -137,12 +146,14 @@ public class MyDispatcherServlet extends HttpServlet {
 			}
 
 		}
+		
 	}
 
 	/**
 	 * 自动注入方法
 	 */
 	private void doAutowired() {
+		logger.info("正在自动注入");
 		if (ioc.isEmpty()) {
 			return;
 		}
@@ -175,6 +186,7 @@ public class MyDispatcherServlet extends HttpServlet {
 	 * 实例化类方法
 	 */
 	private void doInstance() {
+		logger.info("正在实例化类");
 		if (classList.isEmpty()) {
 			return;
 		}
@@ -221,7 +233,7 @@ public class MyDispatcherServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		logger.info("IOC："+ioc);
 	}
 
 	/**
@@ -242,6 +254,7 @@ public class MyDispatcherServlet extends HttpServlet {
 	 * @param scanPackage
 	 */
 	private void doScan(String scanPackage) {
+		logger.info("正在扫描包路径："+scanPackage);
 		URL url = this.getClass().getClassLoader().getResource("/" + scanPackage.replaceAll("\\.", "/"));
 		File classDir = new File(url.getFile());
 		for (File file : classDir.listFiles()) {
@@ -255,6 +268,7 @@ public class MyDispatcherServlet extends HttpServlet {
 				classList.add(className);
 			}
 		}
+		
 	}
 
 	/**
@@ -263,6 +277,7 @@ public class MyDispatcherServlet extends HttpServlet {
 	 * @param contextConfigLocation
 	 */
 	private void doLoadConfig(String contextConfigLocation) {
+		logger.info("正在加载配置文件");
 		InputStream in = this.getClass().getClassLoader().getResourceAsStream(contextConfigLocation);
 		try {
 			contextConfig.load(in);
@@ -277,7 +292,7 @@ public class MyDispatcherServlet extends HttpServlet {
 				}
 			}
 		}
-
+		logger.info(contextConfig);
 	}
 
 }

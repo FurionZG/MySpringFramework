@@ -8,4 +8,7 @@ public class DemoService implements IDemoService {
 	public String get(String name) {
 		return "My name is:" + name;
 	}
+	public String add(String name) {
+		return "Add name:" + name;
+	}
 }
